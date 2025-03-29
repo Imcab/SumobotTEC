@@ -27,7 +27,7 @@ enum SumoModes {
     Mode3,
     OFF
 };
-//If you change a name of SumoBots, change it in all the implementations, otherwise an error will occur
+//If you change a name of SumoModes list, change it in all the implementations, otherwise an error will occur
 
 //Track the current dipswitch mode
 SumoModes currentMode;
@@ -106,15 +106,25 @@ boolean outOfDojo(int Qdr, int Qdr2){
 }
 
 void sumoBotActions(SumoModes currentSumoMode){
-  //For switch 1 is the sencond number of the array
-  //0,1 = DipSwitch 1 on, Dipswitch 2 off
+  //For DipSwitchButton 1 is the sencond number of the array
+  //0,1 = DipSwitchButton 1 on, DipswitchButton 2 off
   //Here implement your sumoActions!
   switch(currentMode){
     case Mode1: // [0,1]
+
+      //Replace it with your own actions, here is an example Implementation:
+      Serial.println("Modo 1 Activado!");
+
       break;
     case Mode2: // [1,0]
+      //Here goes an action!
+      Serial.println("Modo 2 Activado!");
+
       break;
     case Mode3: // [1,1]
+      //Here goes an action!
+      Serial.println("Modo 3 Activado!");
+
       break;
     case OFF: //[0,0] Both Switches off, stop sumo
       sumoStop();
