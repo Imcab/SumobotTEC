@@ -109,6 +109,43 @@ boolean outOfDojo(int Qdr, int Qdr2){
   return  Qdr < 700 || Qdr2 < 700;
 }
 
+//Called on main loop
+void updateDipSwitch(){
+  //update individual dipswitch ports
+  buttonD7 = digitalRead(7);
+  buttonD8 = digitalRead(8);
+
+  //Stores the dipSwitchValues
+  dipSwitch[0] = !buttonD7;
+  dipSwitch[1] = !buttonD8;
+
+  //Handle dipSwitch sumoBot combinations
+  if(dipSwitch[0] == 0 && dipSwitch[1] == 1){
+    currentMode = Mode1;
+  }
+  else if(dipSwitch[0] == 1 && dipSwitch[1] == 0){
+    currentMode = Mode2;
+  }
+  else if(dipSwitch[0] == 1 && dipSwitch[1] == 1){
+    currentMode = Mode3;
+  }
+  else{
+    currentMode = OFF;
+  }
+}
+
+//Called on main loop
+void updateSensors(){
+  //Converts the rawRead values into centimeters
+  distanceSharp = toCentimeters(analogRead(SharpSensorPIN));
+
+  //Get infrared sensors values
+  QDR1 = analogRead(QDR1PIN);
+  QDR2 = analogRead(QDR2PIN);
+
+}
+
+//Called on main loop
 void sumoBotActions(SumoModes currentSumoMode){
   //For DipSwitchButton 1 is the sencond number of the array
   //0,1 = DipSwitchButton 1 on, DipswitchButton 2 off
@@ -137,39 +174,13 @@ void sumoBotActions(SumoModes currentSumoMode){
   }
 }
 
+
 void loop()
 {
-  
-  //update individual dipswitch ports
-  buttonD7 = digitalRead(7);
-  buttonD8 = digitalRead(8);
 
-  //Get infrared sensors values
-  QDR1 = analogRead(QDR1PIN);
-  QDR2 = analogRead(QDR2PIN);
-
-  //Stores the dipSwitchValues
-  dipSwitch[0] = !buttonD7;
-  dipSwitch[1] = !buttonD8;
-
-  //Converts the rawRead values into centimeters
-  distanceSharp = toCentimeters(analogRead(SharpSensorPIN));
-
-  //Handle dipSwitch sumoBot combinations
-  if(dipSwitch[0] == 0 && dipSwitch[1] == 1){
-    currentMode = Mode1;
-  }
-  else if(dipSwitch[0] == 1 && dipSwitch[1] == 0){
-    currentMode = Mode2;
-  }
-  else if(dipSwitch[0] == 1 && dipSwitch[1] == 1){
-    currentMode = Mode3;
-  }
-  else{
-    currentMode = OFF;
-  }
-
-  //Update the sumobot actions
-  sumoBotActions(currentMode);
+  //Update All functions:
+  updateSensors(); //updates sensors
+  updateDipSwitch(); //updates and handle the dipswitch state
+  sumoBotActions(currentMode); //Update the sumobot actions
   
 }
