@@ -147,7 +147,7 @@ boolean outOfDojo(){
 
 
 //Called on main loop
-void sumoBotActions(SumoModes currentSumoMode){
+void sumoBotActions(){
   //For DipSwitchButton 1 is the sencond number of the array
   //0,1 = DipSwitchButton 1 on, DipswitchButton 2 off
   //Here implement your sumoActions!
@@ -181,6 +181,6 @@ void loop()
   //Update All functions:
   updateSensors(); //updates sensors
   updateDipSwitch(); //updates and handle the dipswitch state
-  sumoBotActions(currentMode); //Update the sumobot actions
+  sumoBotActions(); //Update the sumobot actions
   
 }
