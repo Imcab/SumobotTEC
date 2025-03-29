@@ -1,5 +1,6 @@
 // C++ code
-//
+// Imad Jared Cabrera Trejo RawSumoBot template
+// Feel free to change this code as you wish or just use it for reference :)
 
 //SharpDistanceSensorPIN on A0
 const int SharpSensorPIN = A0;
@@ -19,13 +20,14 @@ int QDR2;
 //Main dipSitch
 int dipSwitch[2];
 
-//All posible combinations off dipSwitch button states, customize it as you wish
+//All posible combinations off dipSwitch button states, customize the names as you wish 
 enum SumoModes {
-    SEARCH,
+    Mode1,
     Mode2,
     Mode3,
     OFF
 };
+//If you change a name of SumoBots, change it in all the implementations, otherwise an error will occur
 
 //Track the current dipswitch mode
 SumoModes currentMode;
@@ -35,6 +37,8 @@ int distanceSharp;
 
 void setup()
 {
+
+  //Sumo setup
   Serial.begin(9600);
 
   pinMode(7, INPUT_PULLUP);
@@ -49,7 +53,7 @@ void setup()
   
 }
 
-//Converts sharp raw value to centimeters
+//Converts sharp raw values to centimeters
 int toCentimeters(int rawValue){
   float voltage = rawValue * 0.0048828125;
   int distance = 13 * pow(voltage, -1);
@@ -95,7 +99,8 @@ boolean validSharpRead(int read){
   return read >= 0 && read <= 30;
 }
 
-//If any of the Infrared sensors is below x, we consider we are touching the white line, change for x to your robot
+//If any of the Infrared sensors are below x tolerance (700 for us),
+// we consider we are touching the white line, change for x to your own robot
 boolean outOfDojo(int Qdr, int Qdr2){
   return  Qdr < 700 || Qdr2 < 700;
 }
@@ -105,21 +110,7 @@ void sumoBotActions(SumoModes currentSumoMode){
   //0,1 = DipSwitch 1 on, Dipswitch 2 off
   //Here implement your sumoActions!
   switch(currentMode){
-    case SEARCH: // [0,1]
-
-        //Just a test
-        if(validSharpRead(distanceSharp) && distanceSharp <= 9  && !outOfDojo(QDR1, QDR2)){
-        sumoStop();
-        }else{
-          sumoTurnRight(50);
-          delay(1500);
-          sumoStop();
-        }
-
-        if(outOfDojo(QDR1, QDR2)){
-          sumoTurnRight(200);
-        }      
-
+    case Mode1: // [0,1]
       break;
     case Mode2: // [1,0]
       break;
@@ -135,7 +126,7 @@ void sumoBotActions(SumoModes currentSumoMode){
 void loop()
 {
   
-  //update individual dipswitch port
+  //update individual dipswitch ports
   buttonD7 = digitalRead(7);
   buttonD8 = digitalRead(8);
 
@@ -147,12 +138,12 @@ void loop()
   dipSwitch[0] = !buttonD7;
   dipSwitch[1] = !buttonD8;
 
-  //Converts the rawRead into centimeters
+  //Converts the rawRead values into centimeters
   distanceSharp = toCentimeters(analogRead(SharpSensorPIN));
 
   //Handle dipSwitch sumoBot combinations
   if(dipSwitch[0] == 0 && dipSwitch[1] == 1){
-    currentMode = SEARCH;
+    currentMode = Mode1;
   }
   else if(dipSwitch[0] == 1 && dipSwitch[1] == 0){
     currentMode = Mode2;
@@ -164,7 +155,7 @@ void loop()
     currentMode = OFF;
   }
 
-  //Update your SumoBot!
+  //Update the sumobot actions
   sumoBotActions(currentMode);
   
 }
