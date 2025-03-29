@@ -98,17 +98,6 @@ void sumoForward(int value){
   
 }
 
-//Check if the distance is valid (Sharp sensor can only read from 0 to 30 centimeters)
-boolean validSharpRead(int read){
-  return read >= 0 && read <= 30;
-}
-
-//If any of the Infrared sensors are below x tolerance (700 for us),
-// we consider we are touching the white line, change for x to your own robot
-boolean outOfDojo(int Qdr, int Qdr2){
-  return  Qdr < 700 || Qdr2 < 700;
-}
-
 //Called on main loop
 void updateDipSwitch(){
   //update individual dipswitch ports
@@ -145,6 +134,18 @@ void updateSensors(){
 
 }
 
+//Check if the distance is valid (Sharp sensor can only read from 0 to 30 centimeters)
+boolean validSharpRead(){
+  return distanceSharp >= 0 && distanceSharp <= 30;
+}
+
+//If any of the Infrared sensors are below x tolerance (700 for us),
+// we consider we are touching the white line, change for x to your own robot
+boolean outOfDojo(){
+  return  QDR1 < 700 || QDR2 < 700;
+}
+
+
 //Called on main loop
 void sumoBotActions(SumoModes currentSumoMode){
   //For DipSwitchButton 1 is the sencond number of the array
@@ -173,7 +174,6 @@ void sumoBotActions(SumoModes currentSumoMode){
     
   }
 }
-
 
 void loop()
 {
