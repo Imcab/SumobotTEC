@@ -73,24 +73,28 @@ void sumoStop(){
   move(0,0,0,0);
 }
 
-//Goes back, change the order in the numbers based on your directions of the motors
-void sumoback(){
-  move(255,0,0,255);
+//Goes back, change the order in the numbers based on your directions of the motors.
+//Values go from 0 to 255
+void sumoback(int value){
+  move(value, 0, 0, value);
 }
 
 //Turns right, change the order in the numbers based on your directions of the motors
+//Values go from 0 to 255
 void sumoTurnRight(int value){
-  move(0,value,0,value);
+  move(0, value, 0, value);
 }
 
 //Turns left, change the order in the numbers based on your directions of the motors
-void sumoTurnLeft(){
-  move(255,0,255,0);
+//Values go from 0 to 255
+void sumoTurnLeft(int value){
+  move(value, 0, value, 0);
 }
 
 //Goes forward, change the order in the numbers based on your directions of the motors
-void sumoForward(){
-  move(0,255, 255, 0);
+//Values go from 0 to 255
+void sumoForward(int value){
+  move(0, value , value , 0);
   
 }
 
