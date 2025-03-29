@@ -117,7 +117,7 @@ void sumoBotActions(SumoModes currentSumoMode){
     case Mode1: // [0,1]
 
       //Replace it with your own actions, here is an example Implementation:
-      Serial.println("Modo 1 Activado!");
+      sumoForward(255); //moves the sumo at max Speed
 
       break;
     case Mode2: // [1,0]
